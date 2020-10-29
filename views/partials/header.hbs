@@ -1,0 +1,13 @@
+<nav>
+    <a>Theater</a>
+    <ul>
+        <li><a href="/">Home </a></li>
+        {{#if isLogged }}
+        <li><a href="/logout">Logout</a></li>
+        {{/if}}
+        {{#unless isLogged}}
+        <li><a href="/user/login">Login</a></li>
+        <li><a href="/user/register">Register</a></li>
+        {{/unless}}
+    </ul>
+</nav>
