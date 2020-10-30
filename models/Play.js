@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
 const cubeSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
+        unique: true,
         required: true,
     },
     description: {
@@ -13,13 +14,17 @@ const cubeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    difficultyLevel: {
-        type: Number,
+    isPublic: {
+        type: Boolean,
+        default: false,
+    },
+    created: {
+        type: String,
         required: true,
     },
-    accessories: [{
+    users: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Accessory',
+        ref: 'Users',
     },],
 });
 

@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    plays: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Play',
+    },],
 });
 
 module.exports = mongoose.model('User', userSchema, 'users');

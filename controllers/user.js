@@ -10,7 +10,7 @@ module.exports = {
             res.render('user/login', { title: 'Login Form', });
         },
         register(req, res) {
-            res.render('user/register', { title: 'Register Form', });
+            res.render('user/register', { title: 'Express Exam', });
         },
         logout(req, res) {
             res.clearCookie(authCookieName);
@@ -21,17 +21,15 @@ module.exports = {
         async register(req, res, next) {
             const { username, password, repeatPassword } = req.body;
             try {
+                if (password === repeatPassword) {
+                    const salt = await bcrypt.genSalt(saltRounds);
+                    const hash = await bcrypt.hash(password, salt);
 
-                const salt = await bcrypt.genSalt(saltRounds);
-                const hash = await bcrypt.hash(password, salt);
+                    const user = new User({ 'username': username, 'password': hash, });
+                    const newUser = await user.save();
 
-                const user = new User({ 'username': username, 'password': hash, });
-                const newUser = await user.save();
-
-                console.log(newUser.toObject());
-
-                if (newUser) return res.redirect('/user/login');
-
+                    if (newUser) return res.redirect('/user/login');
+                }
             } catch (error) {
                 console.error('Error : ', error);
                 return res.render('user/register', { errorMessage: error, });

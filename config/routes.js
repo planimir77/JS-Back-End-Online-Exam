@@ -4,7 +4,7 @@ const cubeController = require('../controllers/cube');
 const accessoryController = require('../controllers/accessory');
 const checkAuth = require('../middlewares/check-auth');
 const validateUser = require('../express-validations/user');
-const validateCube = require('../express-validations/cube');
+const validatePlay = require('../express-validations/play');
 const validateAccessory = require('../express-validations/accessory');
 const handleValidationErrors = require('../express-validations/handle-validation-errors');
 
@@ -57,23 +57,23 @@ module.exports = (app) => {
 
     // /********************* User *********************/
     // // Register
-    // app.get('/user/register', checkAuth(false), userController.get.register);
-    // app.post('/user/register',
-    //     checkAuth(false),
-    //     validateUser.username,
-    //     validateUser.password,
-    //     handleValidationErrors,
-    //     userController.post.register
-    // );
-    // // Login
-    // app.get('/user/login', checkAuth(false), userController.get.login);
-    // app.post('/user/login', checkAuth(false), userController.post.login);
+    app.get('/user/register', checkAuth(false), userController.get.register);
+    app.post('/user/register',
+        checkAuth(false),
+        validateUser.username,
+        validateUser.password,
+        handleValidationErrors,
+        userController.post.register
+    );
+    // Login
+    app.get('/user/login', checkAuth(false), userController.get.login);
+    app.post('/user/login', checkAuth(false), userController.post.login);
 
-    // // Logout
-    // app.get('/logout', checkAuth(true), userController.get.logout);
+    // Logout
+    app.get('/logout', checkAuth(true), userController.get.logout);
 
     // /****************** Not found *********************/
-    // app.get('*', (req, res) => {
-    //     res.render('404', { title: "Not found", });
-    // });
+    app.get('*', (req, res) => {
+        res.render('404', { title: "Not found", });
+    });
 };

@@ -3,7 +3,7 @@ const User = require('../models/User');
 
 const username = check('username')
     .notEmpty()
-    .isLength({ min: 5, }).withMessage('Username must be of 5 characters long.')
+    .isLength({ min: 3, }).withMessage('Username must be of 5 characters long.')
     .matches(/^[A-Za-z0-9]*$/).withMessage('Username should consist only with English letters and digits')
     .custom((value, { req }) => {
         return Promise.resolve(
@@ -17,7 +17,7 @@ const username = check('username')
 
 const password = check('password')
     .notEmpty()
-    .isLength({ min: 8, }).withMessage('Password must be of 8 characters long.')
+    .isLength({ min: 3, }).withMessage('Password must be of 8 characters long.')
     .matches(/^[A-Za-z0-9]*$/).withMessage('Username should consist only with English letters and digits')
     .custom((value, { req }) => {
 
