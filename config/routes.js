@@ -1,59 +1,41 @@
 const homeController = require('../controllers/home');
 const userController = require('../controllers/user');
-const cubeController = require('../controllers/cube');
-const accessoryController = require('../controllers/accessory');
+const playController = require('../controllers/play');
 const checkAuth = require('../middlewares/check-auth');
 const validateUser = require('../express-validations/user');
 const validatePlay = require('../express-validations/play');
-const validateAccessory = require('../express-validations/accessory');
 const handleValidationErrors = require('../express-validations/handle-validation-errors');
 
 module.exports = (app) => {
     app.get('/', homeController.get.homePage);
 
-    // app.get('/about', (req, res) => {
-    //     res.render('about', { title: "About page", });
-    // });
-
-    // // ********************* Cube *********************
+    // // ********************* Play *********************
     // // Details
-    // app.get('/cube/details/:id', cubeController.get.details);
-    // // Create
-    // app.get('/cube/create', checkAuth(true), cubeController.get.create);
-    // app.post('/cube/create',
-    //     checkAuth(true),
-    //     validateCube.name,
-    //     validateCube.description,
-    //     validateCube.imageUrl,
-    //     handleValidationErrors,
-    //     cubeController.post.create
-    // );
-    // // Edit
-    // app.get('/cube/edit/:id', checkAuth(true), cubeController.get.update);
-    // app.post('/cube/edit/:id',
-    //     checkAuth(true),
-    //     validateCube.name,
-    //     validateCube.description,
-    //     validateCube.imageUrl,
-    //     handleValidationErrors,
-    //     cubeController.post.update
-    // );
-    // // Delete
-    // app.get('/cube/delete/:id', checkAuth(true), cubeController.get.delete);
-    // app.post('/cube/delete/:id', checkAuth(true), cubeController.post.delete);
-    // // Attach Accessory
-    // app.get('/cube/attach/accessory/:id', checkAuth(true), cubeController.get.attachAccessory);
-    // app.post('/cube/attach/accessory/:id', checkAuth(true), cubeController.post.attachAccessory);
-
-    // /********************* Accessory *********************/
-    // app.get('/accessory/create', checkAuth(true), accessoryController.get.create);
-    // app.post('/accessory/create',
-    //     checkAuth(true),
-    //     validateAccessory.name,
-    //     validateAccessory.description,
-    //     validateAccessory.imageUrl,
-    //     accessoryController.post.create
-    // );
+    app.get('/play/details/:id', checkAuth(true), playController.get.details);
+    // Create
+    app.get('/play/create', checkAuth(true), playController.get.create);
+    app.post('/play/create',
+        checkAuth(true),
+        validatePlay.title,
+        validatePlay.description,
+        validatePlay.imageUrl,
+        handleValidationErrors,
+        playController.post.create
+    );
+    // Edit
+    app.get('/play/edit/:id', checkAuth(true), playController.get.update);
+    app.post('/play/edit/:id',
+        checkAuth(true),
+        validatePlay.title,
+        validatePlay.description,
+        validatePlay.imageUrl,
+        handleValidationErrors,
+        playController.post.update
+    );
+    // Like
+    app.get('/play/like/:id', checkAuth(true), (playController.get.like));
+    // Delete
+    app.get('/play/delete/:id', checkAuth(true), playController.get.delete);
 
     // /********************* User *********************/
     // // Register

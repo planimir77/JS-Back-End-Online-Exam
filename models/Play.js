@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const cubeSchema = new mongoose.Schema({
+const playSchema = new mongoose.Schema({
     title: {
         type: String,
         unique: true,
@@ -9,6 +9,7 @@ const cubeSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
+        maxlength: 50,
     },
     imageUrl: {
         type: String,
@@ -19,6 +20,10 @@ const cubeSchema = new mongoose.Schema({
         default: false,
     },
     created: {
+        type: Date,
+        required: true,
+    },
+    creator: {
         type: String,
         required: true,
     },
@@ -28,4 +33,17 @@ const cubeSchema = new mongoose.Schema({
     },],
 });
 
-module.exports = mongoose.model('Cube', cubeSchema, 'cubes');
+playSchema.pre('save', function (next) {
+    const now = Date.now()
+     
+    //this.updatedAt = now
+    // Set a value for createdAt only if it is null
+    if (!this.createdAt) {
+      this.createdAt = now
+    }
+    
+    // Call the next function in the pre-save chain
+    next()    
+  })
+
+module.exports = mongoose.model('Play', playSchema, 'plays');
