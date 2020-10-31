@@ -10,7 +10,7 @@ const getPlay = async (id) => {
 
 const getPlays = async (query) => {
 
-    const plays = await Play.find({}).lean();
+    const plays = await Play.find(query).lean();
     console.log("Plays: ", plays);
 
     return plays;
@@ -30,7 +30,7 @@ module.exports = {
                 const play = await getPlay(playId);
                 const isCreator = Boolean(play.creator === req.user._id);
 
-                // Find all users in play with playId
+                // Find array of users in play with playId
                 const users = await getUserslikedPlay(playId);
 
                 const isLiked = Boolean(users.some(user => user._id.toString() === currentUser));
@@ -99,14 +99,14 @@ module.exports = {
         async create(req, res, next) {
             try {
                 const entry = req.body;
-                //const date = new Date(Date.now()).toLocaleDateString();
+                const date = new Date(Date.now()).toLocaleDateString();
                 const newPlay = new Play({
                     'title': entry.title,
                     'description': entry.description,
                     'imageUrl': entry.imageUrl,
                     'isPublic': Boolean(entry.isPublic === 'on'),
                     'creator': req.user._id,
-                    //'created': date,
+                    'created': date,
                 });
 
                 const play = await newPlay.save();

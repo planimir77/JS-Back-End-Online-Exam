@@ -5,16 +5,21 @@ module.exports = {
         async homePage(req, res) {
             const query = req.query;
             try {
-                const plays = await getPlays(query);
-
+                
                 if (res.locals.isLogged) {
-                    return res.render('user/home', { plays: plays, });
+                    const plays = await getPlays(query);
+                    return res.render('user/home', { title: "Express Retake Exam January 2019", plays: plays, });
                 }
-                res.render('guest/home', { plays: plays, });
+
+                const plays = await (await getPlays({ isPublic: true, })).sort((a, b) => {
+                    return b.users.length - a.users.length;
+                }).slice(0,3);
+
+                res.render('guest/home', { title: "Express Retake Exam January 2019", guestplays: plays, });
 
             } catch (error) {
                 console.error('Error :', error);
-                res.render('index', { title: "Home page", errorMessage: error.message, });
+                res.render('guest/home', { title: "Express Retake Exam January 2019", errorMessage: error.message, });
             }
         },
     },

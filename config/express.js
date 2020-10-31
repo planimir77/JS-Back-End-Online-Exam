@@ -32,7 +32,4 @@ module.exports = (app) => {
 
     // Setup the static files
     app.use('/static', express.static('static'));
-
-    // const staticFilePath = path.join(__dirname,'..', 'static');
-    // app.use('/static', express.static(staticFilePath));
 };

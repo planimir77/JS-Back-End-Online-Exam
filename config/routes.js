@@ -9,6 +9,7 @@ const handleValidationErrors = require('../express-validations/handle-validation
 module.exports = (app) => {
     app.get('/', homeController.get.homePage);
 
+
     // // ********************* Play *********************
     // // Details
     app.get('/play/details/:id', checkAuth(true), playController.get.details);
